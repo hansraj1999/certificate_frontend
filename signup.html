@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <title>Sign Up</title>
+
+</head>
+<body class="main">
+    <div class="main">
+    <div class="form-container" style="background: white; ">
+        <div class="image-holder"></div>
+        <form method="post" id='formElem' class="formElem">
+            <h2 class="text-center"><strong>Send Otp</strong></h2>
+            <div class="form-group"><input class="form-control email" type="email" name="email" placeholder="Email"></div>
+            <div class="form-group">
+            </div>
+            <div class="form-group" ><button class="btn btn-success btn-block btn-info" type="submit">Signup</button></div>                     
+        </form>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    formElem.onsubmit = async (e) => {
+      e.preventDefault();
+      var form = document.querySelector("#formElem");
+        
+        email= form.querySelector('input[name="email"]').value
+        console.log(email);
+        let response = await fetch('https://still-harbor-79180.herokuapp.com/create_admin_stage1', {
+                method: 'POST',
+                body: new FormData(formElem),
+        })
+        let result = await response.json(); 
+        console.log(result);
+        if(result==true){
+            alert('Otp sent');
+            const url = "otp.html?email="+email;
+            window.location.href=url;
+        }
+        else{
+            alert(result['detail']);
+        }
+};
+</script>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <title>Sign Up</title>
+
+</head>
+<body class="main">
+    <div class="main">
+    <div class="form-container" style="background: white;">
+        <div class="image-holder"></div>
+        <form method="post" id='formElem' class="formElem">
+            <h2 class="text-center"><strong>Enter Otp</strong></h2>
+            <div class="form-group"><input class="form-control email" type="email" name="email" placeholder="Email" id="hideme"></div>
+            <div class="form-group"><input class="form-control" type="number" name="gen_otp" placeholder="Otp"></div>
+            <div class="form-group">
+            </div>
+            <div class="form-group" ><button class="btn btn-success btn-block btn-info" type="submit">Signup</button></div>                     
+        </form>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    let params = new URLSearchParams(location.search);
+    document.getElementById("hideme").style.display = 'none';
+    console.log(params.get('email'));
+    email = params.get('email');
+    document.getElementById("hideme").value = params.get('email');
+    formElem.onsubmit = async (e) => {
+      e.preventDefault();
+      var form = document.querySelector("#formElem");
+        
+        let response = await fetch('https://still-harbor-79180.herokuapp.com/create_admin_stage2', {
+                method: 'POST',
+                body: new FormData(formElem),
+        })
+        let result = await response.json(); 
+        console.log(result);
+        if(result==true){
+            alert('Otp Verified');
+            const url = "register.html?email="+email;
+            window.location.href=url;
+        }
+        else{
+            alert(result['detail']);
+        }
+};
+</script>

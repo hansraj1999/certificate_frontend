@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Home</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body class="d-flex flex-column h-100">
+        <main class="flex-shrink-0">
+            <!-- Navigation-->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container px-5">
+                    <a class="navbar-brand" href="home.html">Certificate Module</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="nl-about.html">About</a></li>
+                            <li class="nav-item"><a class="nav-link" href="nl-find.html">Find</a></li>
+                            <li class="nav-item"><a class="nav-link" href="nl-templates.html">Templates</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="login.html">Sign In</a></li> 
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+             <header class="bg-dark py-5">
+                <div class="container px-5">
+                    <div class="row gx-5 align-items-center justify-content-center">
+                        <div class="col-lg-8 col-xl-7 col-xxl-6">
+                            <div class="my-5 text-center text-xl-start">
+                                <div class="form">
+                                    <h1 class="display-5 fw-bolder text-white mb-2">Find?</h1>
+                                    <p class="lead fw-normal text-white-50 mb-4">Enter Unique ID of Certificate to Start the Search!</p>
+                                    <form class="form-inline" method="post" id="formElem">
+                                    <input type="number" name="select"class="form-control" id="1" placeholder="Enter ID" style="margin-top:-2%;margin-bottom: 2%;" required>  
+                                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
+                                    <button class="btn btn-success btn-xl px-4 me-sm-3" type="submit" href="start-uploading.html">Search</button>
+                                </form>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5" src="css/images/home.png" alt="..." /></div>
+                    </div>
+                </div>
+            </header>
+        </main>
+        <section class="py-5" style="background:#FAF9F6;">
+            <div class="container px-5 my-5">
+                <div class="row gx-5 justify-content-center" id="hideme" >
+                    <div class="table-responsive">
+                      <table class="table table-striped table-hover table-borderless" id="table1" style="background: white; margin-top: 2%;text-align: center;">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Unique Id</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">By</th>
+                            <th scope="col">Certificate For</th>
+                            <th scope="col">Certificate Of</th>
+                        </tr>
+                        </thead>
+                        <tbody id="body">
+
+                        </tbody>
+
+                      </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <footer class="bg-dark py-4 mt-auto">
+            <div class="container px-5">
+                <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+                    <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; Certificate Module 2022</div></div>
+                    <div class="col-auto">
+                        <a class="link-light small" href="https://www.instagram.com/hansraj__1999/">Instagram</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a class="link-light small" href="https://www.facebook.com/hansraj.deghun.9/">Facebook</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a class="link-light small" href="https://discord.gg/cqQWZxGg6P">Discord Server</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
+<script type="text/javascript">
+  document.getElementById("hideme").style.display = "none";
+
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization",sessionStorage.getItem("token"));
+  //  console.log(sessionStorage.getItem("token"));
+
+    formElem.onsubmit = async (e) => {
+    e.preventDefault();
+    let response = await fetch('https://still-harbor-79180.herokuapp.com/admin/find', {
+      method: 'post',
+      headers:myHeaders,  
+      body: new FormData(formElem)
+
+    });
+
+    let result = await response.json();
+        console.log(result);
+        
+    if(result=='Not Found'){
+      alert('Error 404 Not Found : Certificate does not exists');
+    }
+    else{
+        var table = document.getElementById('body');
+        document.getElementById("hideme").style.display = "block";
+          var tr = document.createElement('tr');
+          tr.innerHTML = '<td scope="row">' + result.id + '</td>' +
+          '<td>' + result.name + '</td>'+
+          '<td>' + result.by1 + '</td>'+
+          '<td>' + result.certi_for + '</td>'+ '<td>' + result.certi_of + '</td>';
+          table.appendChild(tr);
+        
+    }
+  
+};
+
+</script>
