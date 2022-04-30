@@ -123,12 +123,12 @@
         var date = d.getDate();
         data = {
           date_uploaded: date,
-          by1 : form.querySelector('input[name="by1"]').value,
+          certificate_by : form.querySelector('input[name="by1"]').value,
           designation1 : form.querySelector('input[name="designation1"]').value,
-          by2: form.querySelector('input[name="by2"]').value,
+          certificate_by2: form.querySelector('input[name="by2"]').value,
           designation2: form.querySelector('input[name="designation2"]').value,
-          certi_for: form.querySelector('input[name="certi_for"]').value,
-          certi_of: form.querySelector('input[name="certi_of"]').value
+          certificate_for: form.querySelector('input[name="certi_for"]').value,
+          certificate_of: form.querySelector('input[name="certi_of"]').value
         }
         let response = await fetch('https://still-harbor-79180.herokuapp.com/admin/stage1', {
                 method: 'POST',
